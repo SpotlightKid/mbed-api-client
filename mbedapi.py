@@ -6,7 +6,11 @@ python mbedapi.py  --repo http://mbed.org/users/dan/code/pubtest/ --user dan --a
 
 #This will compile http://mbed.org/users/dan/code/pubtest/ for the 1768 and download the result.
 
+Examples of options:
+--extra_symbols "foo=bar,x=y" 
 
+--replace_file "main.cpp:/tmp/replace_main.cpp"  
+(can be repeated)
 
 """
 import os, getpass, sys, json, time, requests, logging
@@ -14,7 +18,7 @@ import os, getpass, sys, json, time, requests, logging
 
 def build_repo(args):
 
-    payload = {'clean':args.clean, 'platform':args.platform, 'repo':args.repo}
+    payload = {'clean':args.clean, 'platform':args.platform, 'repo':args.repo, 'extra_symbols': args.extra_symbols}
 
     if args.replace_file:
         replace = []
@@ -91,6 +95,7 @@ if __name__ == "__main__":
     parser.add_argument('--platform', type=str, help='Platform name', required=True)
     parser.add_argument('--destdir', type=str, help='Binary destination directory', required=True)
     parser.add_argument('--replace_file', type=str, help='Replace file and build. Can be repeated. Syntax: remotepath:localpath', required=False, action='append')
+    parser.add_argument('--extra_symbols', type=str, help='Provide extra symbols to build system', required=False, action='append')
     parser.add_argument('--clean', action='store_true', help='Force clean build')
     parser.add_argument('--debug', help='Show debugging info', required=False)
 
