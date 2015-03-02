@@ -2,9 +2,9 @@
 
 Usage example:
 
-python mbedapi.py  --repo http://mbed.org/users/dan/code/pubtest/ --user dan --api http://mbed.org --platform mbed-LPC1768 --destdir /tmp/ --debug 2
+python mbedapi.py  --repo http://developer.mbed.org/users/dan/code/pubtest/ --user dan --api http://developer.mbed.org --platform mbed-LPC1768 --destdir /tmp/ --debug 2
 
-#This will compile http://mbed.org/users/dan/code/pubtest/ for the 1768 and download the result.
+#This will compile http://developer.mbed.org/users/dan/code/pubtest/ for the 1768 and download the result.
 
 Examples of options:
 --extra_symbols "foo=bar,x=y" 
@@ -36,6 +36,7 @@ def build_repo(args):
     auth = (args.user, getpass.getpass('mbed password: '),)
 
     #send task to api
+    logging.debug(args.api + "/api/v2/tasks/compiler/start/" + "| data: " + str(payload))
     r = requests.post(args.api + "/api/v2/tasks/compiler/start/", data=payload, auth=auth)
 
     logging.debug(r.content)
@@ -90,7 +91,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description='Build an mbed repository.')
     parser.add_argument('--user', type=str, help='Your username on mbed.', required=True)
-    parser.add_argument('--api', type=str, help='URL to API server', required=True, default='https://mbed.org')
+    parser.add_argument('--api', type=str, help='URL to API server', required=True, default='https://developer.mbed.org')
     parser.add_argument('--repo', type=str, help='URL of repository to build.', required=True)
     parser.add_argument('--platform', type=str, help='Platform name', required=True)
     parser.add_argument('--destdir', type=str, help='Binary destination directory', required=True)
