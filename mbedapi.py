@@ -76,7 +76,11 @@ def build_repo(args):
     #now download
     if success:
         logging.info("Downloading your binary")
-        params = {'repomode': True, 'program': response['result']['data']['program'], 'binary': response['result']['data']['binary'] }
+        params = {
+                'repomode': True,
+                'program': response['result']['data']['program'],
+                'binary': response['result']['data']['binary'],
+                'task_id': uuid }
         r = requests.get(args.api + "/api/v2/tasks/compiler/bin/", params=params, auth=auth)
         destination = os.path.join(args.destdir, response['result']['data']['binary'])
 
